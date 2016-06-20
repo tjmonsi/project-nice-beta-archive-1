@@ -7,23 +7,6 @@ export default {
     provider.addScope('profile');
     provider.addScope('email');
     firebase.auth().signInWithRedirect(provider);
-    firebase.auth().getRedirectResult().then(result => {
-      const {user} = result;
-      const {displayName} = user;
-      if (snackbar) {
-        snackbar.showNotification(`Hello ${displayName}`);
-      } else {
-        alert(`Hello ${displayName}`);
-      }
-    }, error => {
-      handleAuthError(error, message => {
-        if (message) {
-          snackbar.showNotification(message);
-        } else {
-          alert(message);
-        }
-      });
-    });
   },
   logout: (context, {snackbar}) => {
     const {firebase} = context;
