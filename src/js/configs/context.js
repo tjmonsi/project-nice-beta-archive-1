@@ -1,4 +1,4 @@
-// import firebase from 'firebase';
+import firebase from 'firebase';
 import {mount} from 'react-mounter';
 import page from 'page';
 import qs from 'qs';
@@ -8,20 +8,20 @@ import {marked, renderer} from './marked';
 
 export const initContext = () => {
 
-//   const config = {
-//     apiKey: 'some-key',
-//     authDomain: 'some-firebase.firebaseapp.com',
-//     databaseURL: 'https://some-firebase.firebaseio.com',
-//     storageBucket: 'some-firebase.appspot.com',
-//   };
+  const config = {
+    apiKey: 'AIzaSyCGZzc25YOgV7iuZBkPf7IfgF1x-NbTrSQ',
+    authDomain: 'project-nice.firebaseapp.com',
+    databaseURL: 'https://project-nice.firebaseio.com',
+    storageBucket: 'project-nice.appspot.com',
+  };
 
-//   firebase.initializeApp(config);
+  firebase.initializeApp(config);
 
   return {
     mount,
     marked,
     renderer,
-    // firebase,
+    firebase,
     mainStore,
     page,
     qs,
