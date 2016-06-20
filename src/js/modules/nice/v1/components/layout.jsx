@@ -34,7 +34,7 @@ export class Layout extends React.Component {
     };
 
     const snackbar = {
-      showNotification: debounce(showNotif, 200)
+      showNotification: debounce(showNotif, 1)
     };
 
     const snackbarRef = (c) => {
@@ -55,7 +55,11 @@ export class Layout extends React.Component {
           <Nav snackbar = {snackbar} />
         </CLDrawer>
         <CLBody>
-          {React.Children.map(children, child => (child ? child : null))}
+          {React.Children.map(children, child => (typeof child !== 'string' ?
+            React.cloneElement(child, {
+              snackbar
+            }) : child
+          ))}
         </CLBody>
         <CLSnackbar ref={snackbarRef}/>
       </CLLayout>
