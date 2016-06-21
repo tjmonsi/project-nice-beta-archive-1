@@ -1,9 +1,9 @@
 import {CLBanner as ReactObject, composeParameter} from './../../../comp-lib';
 import {useDeps, composeAll, compose} from 'mantra-core';
-import {composeArticleBanner} from '../composers';
+import {composeArticleBannerStackGrid} from '../composers';
 
-export const Banner = composeAll(
+export const StackGridBanner = composeAll(
   compose(composeParameter),
-  compose(composeArticleBanner),
+  compose(composeArticleBannerStackGrid),
   useDeps()
 )(ReactObject);

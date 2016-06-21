@@ -1,10 +1,17 @@
 import React from 'react';
 import {CLButton} from './../../../comp-lib';
+import random from 'random-js';
 // import {handleAuthError} from './../libs';
 
-export const composeArticleBanner = ({context, actions, snackbar, id}, onData) => {
+export const composeArticleBannerStackGrid = ({context, actions, snackbar, id}, onData) => {
   const {article} = actions();
   const {getArticle} = article;
+  const rm = random();
+  const r = rm.integer(0, 100);
+  const g = rm.integer(0, 100);
+  const b = rm.integer(0, 100);
+  const color = `rgba(${r},${g},${b},0.7)`;
+
 
   const callback = (err, articleObject) => {
     if (err) {
@@ -17,11 +24,12 @@ export const composeArticleBanner = ({context, actions, snackbar, id}, onData) =
         title,
         subtitle,
         textpos: 'left',
-        backgroundGradient: 'linear-gradient(rgba(0,50,0,0.7), rgba(0,70,0,0.7)), ',
+        backgroundGradient: `linear-gradient(${color}, ${color}), `,
         backgroundImage,
         color: 'white',
         minHeight: 0.8,
-        addClasses: 'nice-banner',
+        contentWidth: 'full',
+        addClasses: 'nice-stack-grid',
         children: [
           React.createElement(CLButton, {
             label: 'Read more',

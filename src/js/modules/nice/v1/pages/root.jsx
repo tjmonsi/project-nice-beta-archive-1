@@ -1,6 +1,6 @@
 import React from 'react';
 import {Layout} from './../components/layout.jsx';
-import {RootCarousel, Banner as slide} from './../containers';
+import {RootCarousel, StackGridBanner as slide} from './../containers';
 
 export default (PageCtx, {mount, page}, {Components, Nav}) => {
   page('/', () => {
@@ -10,8 +10,10 @@ export default (PageCtx, {mount, page}, {Components, Nav}) => {
 
     const carouselAttributes = {
       slide,
-      height: 550,
-      buttonColor: 'white'
+      stackHeight: 550,
+      buttonColor: 'white',
+      limit: 7,
+      addClasses: 'nice'
     };
 
     mount(PageCtx, {

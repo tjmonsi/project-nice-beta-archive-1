@@ -20,7 +20,7 @@ export class CLStackGrid extends React.Component {
     } = this.props;
     const defaultClass = `${prefix}-stack-grid`;
     const className = classNames(
-      'mdl-grid',
+      'mdl-grid mdl-grid--no-spacing',
       defaultClass,
       classList(classes, defaultClass),
       classList(addClasses, defaultClass)
@@ -39,16 +39,20 @@ export class CLStackGrid extends React.Component {
       className: classNames(
         'mdl-cell',
         {
-          'mdl-cell--12-col': childrenCount < 3,
-          'mdl-cell--6-col': childrenCount >= 3 && childrenCount < 5,
-          'mdl-cell--4-col': childrenCount >= 5,
+          'mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--4-col-phone': childrenCount < 3,
+          'mdl-cell--6-col mdl-cell--4-col-tablet mdl-cell--4-col-phone': childrenCount >= 3 &&
+            childrenCount < 6,
+          'mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone': childrenCount >= 6,
         }
       )
     };
 
     const bigStackAttributes = {
       className: classNames(
-        'mdl-cell mdl-cell--12-col'
+        'mdl-cell mdl-cell--12-col',
+        `${defaultClass}-big`,
+        classList(classes, `${defaultClass}-big`),
+        classList(addClasses, `${defaultClass}-big`)
       ),
       style: {
         height: stackHeight,
@@ -59,7 +63,10 @@ export class CLStackGrid extends React.Component {
 
     const smallStackAttributes = {
       className: classNames(
-        'mdl-cell mdl-cell--12-col'
+        'mdl-cell mdl-cell--12-col',
+        `${defaultClass}-small`,
+        classList(classes, `${defaultClass}-small`),
+        classList(addClasses, `${defaultClass}-small`)
       ),
       style: {
         height: stackHeight / 2,
@@ -70,24 +77,26 @@ export class CLStackGrid extends React.Component {
     return (
       <div {...attributes} >
         <div {...columnAttributes} >
-          <div className="mdl-grid">
+          <div className="mdl-grid mdl-grid--no-spacing">
             <div {...bigStackAttributes} >
               {
                 typeof main === 'string' ? main :
                   React.cloneElement(main, {
                     classes,
-                    snackbar
+                    snackbar,
+                    height: stackHeight
                   })
               }
             </div>
             {
-              section1 && (childrenCount < 3 || childrenCount > 3) ? (
+              section1 && (childrenCount === 2 || childrenCount >= 4) ? (
                 <div {...smallStackAttributes} >
                   {
                     typeof section1 === 'string' ? section1 :
                       React.cloneElement(section1, {
                         classes,
-                        snackbar
+                        snackbar,
+                        height: stackHeight
                       })
                   }
                 </div>
@@ -98,7 +107,7 @@ export class CLStackGrid extends React.Component {
         {
           childrenCount >= 3 ? (
             <div {...columnAttributes} >
-              <div className="mdl-grid">
+              <div className="mdl-grid mdl-grid--no-spacing">
                 {
                   section1 && (childrenCount === 3) ? (
                     <div {...smallStackAttributes} >
@@ -106,7 +115,8 @@ export class CLStackGrid extends React.Component {
                         typeof section1 === 'string' ? section1 :
                           React.cloneElement(section1, {
                             classes,
-                            snackbar
+                            snackbar,
+                            height: stackHeight
                           })
                       }
                     </div>
@@ -120,7 +130,8 @@ export class CLStackGrid extends React.Component {
                         typeof section2 === 'string' ? section2 :
                           React.cloneElement(section2, {
                             classes,
-                            snackbar
+                            snackbar,
+                            height: stackHeight
                           })
                       }
                     </div>
@@ -128,13 +139,14 @@ export class CLStackGrid extends React.Component {
                 }
 
                 {
-                  section3 && (childrenCount === 4) ? (
+                  section3 && (childrenCount === 4 || childrenCount === 6) ? (
                     <div {...bigStackAttributes} >
                       {
                         typeof section3 === 'string' ? section3 :
                           React.cloneElement(section3, {
                             classes,
-                            snackbar
+                            snackbar,
+                            height: stackHeight
                           })
                       }
                     </div>
@@ -142,13 +154,14 @@ export class CLStackGrid extends React.Component {
                 }
 
                 {
-                  section3 && (childrenCount > 4) ? (
+                  section3 && (childrenCount === 5 || childrenCount >= 7) ? (
                     <div {...smallStackAttributes} >
                       {
                         typeof section3 === 'string' ? section3 :
                           React.cloneElement(section3, {
                             classes,
-                            snackbar
+                            snackbar,
+                            height: stackHeight
                           })
                       }
                     </div>
@@ -156,13 +169,69 @@ export class CLStackGrid extends React.Component {
                 }
 
                 {
-                  section4 && (childrenCount > 4) ? (
+                  section4 && (childrenCount === 5 || childrenCount >= 7) ? (
                     <div {...smallStackAttributes} >
                       {
                         typeof section3 === 'string' ? section4 :
                           React.cloneElement(section4, {
                             classes,
-                            snackbar
+                            snackbar,
+                            height: stackHeight
+                          })
+                      }
+                    </div>
+                  ) : null
+                }
+              </div>
+            </div>
+          ) : null
+        }
+        {
+          childrenCount >= 6 ? (
+            <div {...columnAttributes} >
+              <div
+                className="mdl-grid mdl-grid--no-spacing mdl-cell--hide-tablet
+                  mdl-cell--hide-phone"
+              >
+                {
+                  section4 && (childrenCount === 6) ? (
+                    <div {...bigStackAttributes} >
+                      {
+                        typeof section4 === 'string' ? section4 :
+                          React.cloneElement(section4, {
+                            classes,
+                            snackbar,
+                            height: stackHeight
+                          })
+                      }
+                    </div>
+                  ) : null
+                }
+
+                {
+                  section5 && (childrenCount >= 6) ? (
+                    <div {...smallStackAttributes} >
+                      {
+                        typeof section5 === 'string' ? section5 :
+                          React.cloneElement(section5, {
+                            classes,
+                            snackbar,
+                            height: stackHeight
+                          })
+                      }
+                    </div>
+                  ) : null
+                }
+
+                {
+                  section6 && (childrenCount >= 7) ? (
+                    <div {...bigStackAttributes} >
+                      {
+                        typeof section6 === 'string' ? section6 :
+                          React.cloneElement(section6, {
+                            classes,
+                            snackbar,
+                            height: stackHeight
                           })
                       }
                     </div>
