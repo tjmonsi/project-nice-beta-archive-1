@@ -64,21 +64,6 @@ export class CLForm extends React.Component {
       );
     }) : null;
   }
-  renderSections() {
-    const {data = {}, sections, classes} = this.props;
-    return sections ? sections.map((sectionObj, key) => {
-      const {section, name} = sectionObj;
-      if (name) {
-        const value = data[name];
-        const ref = (c) => {
-          this.sections[name] = c;
-        };
-        return section && typeof section === 'function' ?
-          section(classes, name, value, this.onChangeHandler, ref) : null;
-      }
-      return section && typeof section === 'function' ? section(classes) : null;
-    }) : null;
-  }
   render() {
     const {
       classes,

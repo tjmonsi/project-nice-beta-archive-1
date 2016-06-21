@@ -17,6 +17,7 @@ export const composeArticleBanner = ({context, actions, snackbar, id}, onData) =
         title,
         subtitle,
         textpos: 'left',
+        backgroundGradient: 'linear-gradient(rgba(0,50,0,0.7), rgba(0,70,0,0.7)), ',
         backgroundImage,
         color: 'white',
         minHeight: 0.8,

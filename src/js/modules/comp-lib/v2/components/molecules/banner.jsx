@@ -50,8 +50,7 @@ export class CLBanner extends React.Component {
       backgroundSize = 'cover',
       backgroundRepeat = 'no-repeat',
       backgroundAttachment = '',
-      background = `${backgroundGradient}
-        ${backgroundGradient.trim() !== '' ? ', ' : ''}${backgroundImage}
+      background = `${backgroundGradient} ${backgroundImage}
         ${backgroundPosition}/${backgroundSize} ${backgroundRepeat}
         ${backgroundAttachment} ${backgroundColor}`.replace('\n',''),
       contentWidth = 'half',
