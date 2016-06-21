@@ -127,9 +127,9 @@ export class CLBanner extends React.Component {
       classList(addClasses, `${defaultClass}-content`)
     );
     const innerStyle = {
-      textAlign: textpos,
-      paddingLeft: textpos !== 'center' ? 50 : null,
-      paddingRight: textpos !== 'center' ? 50 : null
+      textAlign: textpos
+      // paddingLeft: textpos !== 'center' ? 50 : null,
+      // paddingRight: textpos !== 'center' ? 50 : null
     };
     const attributes = {
       className,
