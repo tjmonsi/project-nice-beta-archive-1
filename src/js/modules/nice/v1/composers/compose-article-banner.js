@@ -16,9 +16,11 @@ export const composeArticleBanner = ({context, actions, snackbar, id}, onData) =
         id,
         title,
         subtitle,
+        textpos: 'left',
         backgroundImage,
         color: 'white',
         minHeight: 0.8,
+        addClasses: 'nice-banner',
         children: [
           React.createElement(CLButton, {
             label: 'Read more',
