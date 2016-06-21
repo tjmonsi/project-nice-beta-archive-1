@@ -6,10 +6,15 @@ export default {
       value
     });
   },
-  getFrontPublished: ({firebase}, {callback = () => {}, limit = 5}) => {
+  getPublished: ({firebase}, {
+    callback = () => {},
+    limit = 5,
+    published = 'published',
+    start = 0
+  }) => {
     const ref = firebase
       .database()
-      .ref('content/article_group/article_category/front_published')
+      .ref(`content/article_group/article_category/${published}`)
       .orderByValue()
       .limitToLast(limit);
 
@@ -21,11 +26,18 @@ export default {
           arr.push([ i, data[i] ]);
         }
       }
-      const frontPublished = arr
-        .sort((a, b) => (new Date(a[1]) < new Date(b[1])))
+      const arr2 = arr
+        .sort((a, b) => (new Date(a[1]) > new Date(b[1])))
         .map((a) => (a[0]));
 
-      callback(null, frontPublished);
+      // console.log(arr2);
+      for (let i = 0; i < start; i++) {
+        arr2.pop();
+      }
+
+      const articles = arr2.reverse();
+
+      callback(null, articles);
     }, callback);
   },
   getArticle: ({firebase}, {callback = () => {}, id}) => {

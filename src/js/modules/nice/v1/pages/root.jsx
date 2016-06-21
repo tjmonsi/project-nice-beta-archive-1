@@ -1,15 +1,20 @@
 import React from 'react';
 import {Layout} from './../components/layout.jsx';
-import {RootCarousel, StackGridBanner as slide} from './../containers';
+import {RootBanner, StackGridBanner as container} from './../containers';
 
 export default (PageCtx, {mount, page}, {Components, Nav}) => {
   page('/', () => {
+    const {
+      CLSideContent,
+      CLCenter
+    } = Components;
+
     const layoutAttributes = {
       Nav
     };
 
-    const carouselAttributes = {
-      slide,
+    const bannerAttributes = {
+      container,
       stackHeight: 550,
       buttonColor: 'white',
       limit: 7,
@@ -19,7 +24,12 @@ export default (PageCtx, {mount, page}, {Components, Nav}) => {
     mount(PageCtx, {
       content: (
         <Layout {...layoutAttributes} >
-          <RootCarousel {...carouselAttributes} />
+          <RootBanner {...bannerAttributes} />
+          <CLCenter centerSize="quarter" >
+            <CLSideContent mainContent="left">
+
+            </CLSideContent>
+          </CLCenter>
         </Layout>
       )
     });

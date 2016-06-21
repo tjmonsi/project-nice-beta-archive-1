@@ -12,7 +12,6 @@ export const composeArticleBannerStackGrid = ({context, actions, snackbar, id}, 
   const b = rm.integer(0, 100);
   const color = `rgba(${r},${g},${b},0.7)`;
 
-
   const callback = (err, articleObject) => {
     if (err) {
       snackbar.showNotification(err.message);

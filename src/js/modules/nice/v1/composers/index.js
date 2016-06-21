@@ -1,3 +1,3 @@
 export * from './compose-nav';
-export * from './compose-carousel';
-export * from './compose-article-banner';
+export * from './compose-container';
+export * from './compose-article-banner-stack-grid';
