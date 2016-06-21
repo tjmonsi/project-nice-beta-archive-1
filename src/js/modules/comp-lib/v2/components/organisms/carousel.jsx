@@ -162,6 +162,7 @@ export class CLCarousel extends React.Component {
                 actionHandler: () => {
                   this.changeSlide(-(key * 100));
                 },
+                key,
                 snackbar
               };
               return (<CLButton {...buttonAttribute}/>);

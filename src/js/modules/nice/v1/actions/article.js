@@ -27,5 +27,17 @@ export default {
 
       callback(null, frontPublished);
     }, callback);
+  },
+  getArticle: ({firebase}, {callback = () => {}, id}) => {
+    if (id) {
+      const articleRef = firebase.database().ref(`content/article_group/articles/${id}`);
+      articleRef.on('value', data => {
+        const article = data.val();
+        article.id = data.key;
+        callback(null, article);
+      }, callback);
+    } else {
+      return callback(null);
+    }
   }
 };
