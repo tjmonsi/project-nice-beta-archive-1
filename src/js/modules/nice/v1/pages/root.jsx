@@ -1,7 +1,7 @@
 import React from 'react';
 import {Layout} from './../components/layout.jsx';
 import {CardSummary} from './../components/card-summary.jsx';
-import {RootBanner, RootCards, StackGridBanner} from './../containers';
+import {RootBanner, RootCards, RootList, StackGridBanner} from './../containers';
 
 export default (PageCtx, {mount, page}, {Components, Nav}) => {
   page('/', () => {
@@ -28,6 +28,11 @@ export default (PageCtx, {mount, page}, {Components, Nav}) => {
       columns: 2
     };
 
+    const listAttributes = {
+      limit: 4,
+      start: 4
+    };
+
     mount(PageCtx, {
       content: (
         <Layout {...layoutAttributes} >
@@ -35,6 +40,7 @@ export default (PageCtx, {mount, page}, {Components, Nav}) => {
           <CLCenter centerSize="eight" noSpacing={true} >
             <CLSideContent mainContent="left">
               <RootCards {...cardListAttributes} />
+              <RootList {...listAttributes} />
             </CLSideContent>
           </CLCenter>
         </Layout>
