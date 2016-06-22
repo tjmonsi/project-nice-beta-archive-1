@@ -7,7 +7,7 @@ export class CardSummary extends React.Component {
   render() {
     return (
       <CLCard>
-
+        Card
       </CLCard>
     );
   }

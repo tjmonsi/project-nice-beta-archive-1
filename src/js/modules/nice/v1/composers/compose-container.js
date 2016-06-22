@@ -1,7 +1,14 @@
 import React from 'react';
 // import {handleAuthError} from './../libs';
 
-export const composePublish = ({context, actions, snackbar, limit, container, start}, onData) => {
+export const composePublish = ({
+  context,
+  actions,
+  snackbar,
+  limit,
+  container,
+  start
+}, onData) => {
   const {article} = actions();
   const {getPublished} = article;
 
