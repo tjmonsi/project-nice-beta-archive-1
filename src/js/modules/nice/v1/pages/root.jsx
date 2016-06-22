@@ -32,7 +32,7 @@ export default (PageCtx, {mount, page}, {Components, Nav}) => {
       content: (
         <Layout {...layoutAttributes} >
           <RootBanner {...bannerAttributes} />
-          <CLCenter centerSize="quarter" >
+          <CLCenter centerSize="eight" noSpacing={true} >
             <CLSideContent mainContent="left">
               <RootCards {...cardListAttributes} />
             </CLSideContent>

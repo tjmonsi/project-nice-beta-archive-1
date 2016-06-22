@@ -26,6 +26,12 @@ export const composePublish = ({
             }));
           }
         }
+      } else {
+        for (let i in articles) {
+          if (articles[i]) {
+            children.push(articles[i]);
+          }
+        }
       }
       onData(null, {children});
     }
