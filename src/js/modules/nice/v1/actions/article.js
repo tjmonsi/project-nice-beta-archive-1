@@ -16,7 +16,7 @@ export default {
       .database()
       .ref(`content/article_group/article_category/${published}`)
       .orderByValue()
-      .limitToLast(limit);
+      .limitToLast(limit + start);
 
     ref.on('value', result => {
       const data = result.val();

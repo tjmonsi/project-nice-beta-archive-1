@@ -1,6 +1,7 @@
 import React from 'react';
 import {Layout} from './../components/layout.jsx';
 import {CardSummary} from './../components/card-summary.jsx';
+import {ClickableListItem} from './../components/clickable-list-item.jsx';
 import {RootBanner, RootCards, RootList, StackGridBanner} from './../containers';
 
 export default (PageCtx, {mount, page}, {Components, Nav}) => {
@@ -29,6 +30,7 @@ export default (PageCtx, {mount, page}, {Components, Nav}) => {
     };
 
     const listAttributes = {
+      container: ClickableListItem,
       limit: 4,
       start: 4
     };

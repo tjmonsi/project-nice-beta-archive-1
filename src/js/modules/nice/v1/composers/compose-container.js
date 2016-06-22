@@ -33,6 +33,8 @@ export const composePublish = ({
           }
         }
       }
+      console.log(articles)
+      console.log(children)
       onData(null, {children});
     }
   };
