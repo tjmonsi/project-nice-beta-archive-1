@@ -8,7 +8,8 @@ export default (PageCtx, {mount, page}, {Components, Nav}) => {
   page('/', () => {
     const {
       CLSideContent,
-      CLCenter
+      CLCenter,
+      CLGrid
     } = Components;
 
     const layoutAttributes = {
@@ -20,7 +21,9 @@ export default (PageCtx, {mount, page}, {Components, Nav}) => {
       stackHeight: 550,
       buttonColor: 'white',
       limit: 7,
-      addClasses: 'nice'
+      addClasses: 'nice',
+      itemAddClasses: 'nice-stack-grid',
+      itemColor: 'white'
     };
 
     const cardListAttributes = {
@@ -32,7 +35,8 @@ export default (PageCtx, {mount, page}, {Components, Nav}) => {
     const listAttributes = {
       container: ClickableListItem,
       limit: 4,
-      start: 4
+      start: 4,
+      width: '100%'
     };
 
     mount(PageCtx, {
@@ -42,7 +46,12 @@ export default (PageCtx, {mount, page}, {Components, Nav}) => {
           <CLCenter centerSize="eight" noSpacing={true} >
             <CLSideContent mainContent="left">
               <RootCards {...cardListAttributes} />
-              <RootList {...listAttributes} />
+              <CLGrid columns={1} noSPacing={true}>
+                <h3 style={{paddingBottom: 0, marginBottom: 0}}>
+                  Other Articles
+                </h3>
+                <RootList {...listAttributes} />
+              </CLGrid>
             </CLSideContent>
           </CLCenter>
         </Layout>

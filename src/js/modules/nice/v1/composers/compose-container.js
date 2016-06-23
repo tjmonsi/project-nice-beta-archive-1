@@ -7,7 +7,9 @@ export const composePublish = ({
   snackbar,
   limit,
   container,
-  start
+  start,
+  itemColor,
+  itemAddClasses
 }, onData) => {
   const {article} = actions();
   const {getPublished} = article;
@@ -22,7 +24,10 @@ export const composePublish = ({
           if (articles[i]) {
             children.push(React.createElement(container, {
               id: articles[i],
-              key: i
+              key: i,
+              index: i,
+              addClasses: itemAddClasses,
+              itemColor
             }));
           }
         }
@@ -33,8 +38,6 @@ export const composePublish = ({
           }
         }
       }
-      console.log(articles)
-      console.log(children)
       onData(null, {children});
     }
   };

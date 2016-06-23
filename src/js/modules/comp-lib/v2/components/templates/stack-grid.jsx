@@ -10,79 +10,137 @@ import {classList, prefix} from './../../libs';
 
 export class CLStackGrid extends React.Component {
   render() {
+
+    // Params
+
     const {
-      classes,
-      addClasses,
+
+      // general params
+
       id,
+      generalClassName,
+      specificClassName,
+      style,
+      styleColumn,
+      styleBig,
+      styleSmall,
       children,
+      snackbar,
+      hideOnLargeScreen,
+      hideOnSmallScreen,
+
+      // other params
+
       stackHeight = 400,
-      snackbar
     } = this.props;
+
+    // Other imports and initialization
+
+    // ID manipulation
+
+    // Default Class
+
     const defaultClass = `${prefix}-stack-grid`;
-    const className = classNames(
-      'mdl-grid mdl-grid--no-spacing',
-      defaultClass,
-      classList(classes, defaultClass),
-      classList(addClasses, defaultClass)
-    );
-    const attributes = {
-      className,
-      id
-    };
+
+    // Children manipulation and checking
 
     const childrenCount = React.Children.count(children);
 
     const [ main, section1, section2, section3, section4, section5, section6 ] =
       children && childrenCount > 1 ? children : [ children ];
 
+    // Classnames
+
+    const className = classNames(
+      'mdl-grid mdl-grid--no-spacing',
+      {
+        'mdl-layout--small-screen-only': hideOnLargeScreen,
+        'mdl-layout--large-screen-only': hideOnSmallScreen
+      },
+      defaultClass,
+      classList(generalClassName, 'stack-grid'),
+      specificClassName
+    );
+
+    const columnClassName = classNames(
+      'mdl-cell',
+      {
+        'mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--4-col-phone': childrenCount < 3,
+        'mdl-cell--6-col mdl-cell--4-col-tablet mdl-cell--4-col-phone': childrenCount >= 3 &&
+          childrenCount < 6,
+        'mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone': childrenCount >= 6,
+      },
+      `${defaultClass}-column`,
+      classList(generalClassName, 'stack-grid-column'),
+      classList(specificClassName, 'column')
+    );
+
+    const bigClassName = classNames(
+      'mdl-cell mdl-cell--12-col',
+      `${defaultClass}-big`,
+      classList(generalClassName, 'stack-grid-big'),
+      classList(specificClassName, 'big')
+    );
+
+    const smallClassName = classNames(
+      'mdl-cell mdl-cell--12-col',
+      `${defaultClass}-small`,
+      classList(generalClassName, 'stack-grid-small'),
+      classList(specificClassName, 'small')
+    );
+
+    // Styles
+
+    const styleBigEdited = Object.assign({}, {
+      height: stackHeight,
+      maxHeight: stackHeight,
+      overflow: 'hidden'
+    }, styleBig);
+
+    const styleSmallEdited = Object.assign({}, {
+      height: stackHeight / 2,
+      maxHeight: stackHeight / 2,
+      overflow: 'hidden'
+    }, styleSmall);
+
+    // Refs
+
+    // Attributes
+
+    const attributes = {
+      id,
+      className,
+      style
+    };
+
     const columnAttributes = {
-      className: classNames(
-        'mdl-cell',
-        {
-          'mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--4-col-phone': childrenCount < 3,
-          'mdl-cell--6-col mdl-cell--4-col-tablet mdl-cell--4-col-phone': childrenCount >= 3 &&
-            childrenCount < 6,
-          'mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone': childrenCount >= 6,
-        }
-      )
+      className: columnClassName,
+      style: styleColumn
     };
 
-    const bigStackAttributes = {
-      className: classNames(
-        'mdl-cell mdl-cell--12-col',
-        `${defaultClass}-big`,
-        classList(classes, `${defaultClass}-big`),
-        classList(addClasses, `${defaultClass}-big`)
-      ),
-      style: {
-        height: stackHeight,
-        maxHeight: stackHeight,
-        overflow: 'hidden'
-      }
+    const bigAttributes = {
+      className: bigClassName,
+      style: styleBigEdited
     };
 
-    const smallStackAttributes = {
-      className: classNames(
-        'mdl-cell mdl-cell--12-col',
-        `${defaultClass}-small`,
-        classList(classes, `${defaultClass}-small`),
-        classList(addClasses, `${defaultClass}-small`)
-      ),
-      style: {
-        height: stackHeight / 2,
-        maxHeight: stackHeight / 2,
-        overflow: 'hidden'
-      }
+    const smallAttributes = {
+      className: smallClassName,
+      style: styleSmallEdited
     };
+
+    // Render Functions
+
+    // Render Return
+
     return (
       <div {...attributes} >
         <div {...columnAttributes} >
           <div className="mdl-grid mdl-grid--no-spacing">
-            <div {...bigStackAttributes} >
+            <div {...bigAttributes} >
               {
                 typeof main === 'string' ? main :
                   React.cloneElement(main, {
-                    classes,
+                    generalClassName,
                     snackbar,
                     height: stackHeight
                   })
@@ -90,11 +148,11 @@ export class CLStackGrid extends React.Component {
             </div>
             {
               section1 && (childrenCount === 2 || childrenCount >= 4) ? (
-                <div {...smallStackAttributes} >
+                <div {...smallAttributes} >
                   {
                     typeof section1 === 'string' ? section1 :
                       React.cloneElement(section1, {
-                        classes,
+                        generalClassName,
                         snackbar,
                         height: stackHeight
                       })
@@ -110,11 +168,11 @@ export class CLStackGrid extends React.Component {
               <div className="mdl-grid mdl-grid--no-spacing">
                 {
                   section1 && (childrenCount === 3) ? (
-                    <div {...smallStackAttributes} >
+                    <div {...smallAttributes} >
                       {
                         typeof section1 === 'string' ? section1 :
                           React.cloneElement(section1, {
-                            classes,
+                            generalClassName,
                             snackbar,
                             height: stackHeight
                           })
@@ -125,11 +183,11 @@ export class CLStackGrid extends React.Component {
 
                 {
                   section2 && (childrenCount > 3) ? (
-                    <div {...smallStackAttributes} >
+                    <div {...smallAttributes} >
                       {
                         typeof section2 === 'string' ? section2 :
                           React.cloneElement(section2, {
-                            classes,
+                            generalClassName,
                             snackbar,
                             height: stackHeight
                           })
@@ -140,11 +198,11 @@ export class CLStackGrid extends React.Component {
 
                 {
                   section3 && (childrenCount === 4 || childrenCount === 6) ? (
-                    <div {...bigStackAttributes} >
+                    <div {...bigAttributes} >
                       {
                         typeof section3 === 'string' ? section3 :
                           React.cloneElement(section3, {
-                            classes,
+                            generalClassName,
                             snackbar,
                             height: stackHeight
                           })
@@ -155,11 +213,11 @@ export class CLStackGrid extends React.Component {
 
                 {
                   section3 && (childrenCount === 5 || childrenCount >= 7) ? (
-                    <div {...smallStackAttributes} >
+                    <div {...smallAttributes} >
                       {
                         typeof section3 === 'string' ? section3 :
                           React.cloneElement(section3, {
-                            classes,
+                            generalClassName,
                             snackbar,
                             height: stackHeight
                           })
@@ -170,11 +228,11 @@ export class CLStackGrid extends React.Component {
 
                 {
                   section4 && (childrenCount === 5 || childrenCount >= 7) ? (
-                    <div {...smallStackAttributes} >
+                    <div {...smallAttributes} >
                       {
                         typeof section3 === 'string' ? section4 :
                           React.cloneElement(section4, {
-                            classes,
+                            generalClassName,
                             snackbar,
                             height: stackHeight
                           })
@@ -189,17 +247,15 @@ export class CLStackGrid extends React.Component {
         {
           childrenCount >= 6 ? (
             <div {...columnAttributes} >
-              <div
-                className="mdl-grid mdl-grid--no-spacing mdl-cell--hide-tablet
-                  mdl-cell--hide-phone"
-              >
+              <div className="mdl-grid mdl-grid--no-spacing mdl-cell--hide-tablet
+                mdl-cell--hide-phone" >
                 {
                   section4 && (childrenCount === 6) ? (
-                    <div {...bigStackAttributes} >
+                    <div {...bigAttributes} >
                       {
                         typeof section4 === 'string' ? section4 :
                           React.cloneElement(section4, {
-                            classes,
+                            generalClassName,
                             snackbar,
                             height: stackHeight
                           })
@@ -210,11 +266,11 @@ export class CLStackGrid extends React.Component {
 
                 {
                   section5 && (childrenCount >= 6) ? (
-                    <div {...smallStackAttributes} >
+                    <div {...smallAttributes} >
                       {
                         typeof section5 === 'string' ? section5 :
                           React.cloneElement(section5, {
-                            classes,
+                            generalClassName,
                             snackbar,
                             height: stackHeight
                           })
@@ -225,11 +281,11 @@ export class CLStackGrid extends React.Component {
 
                 {
                   section6 && (childrenCount >= 7) ? (
-                    <div {...bigStackAttributes} >
+                    <div {...bigAttributes} >
                       {
                         typeof section6 === 'string' ? section6 :
                           React.cloneElement(section6, {
-                            classes,
+                            generalClassName,
                             snackbar,
                             height: stackHeight
                           })

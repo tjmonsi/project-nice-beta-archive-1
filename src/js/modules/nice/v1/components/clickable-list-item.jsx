@@ -7,14 +7,17 @@ import {
 export class ClickableListItem extends React.Component {
   render() {
     const {
-      id
+      id,
+      title,
+      subTitle,
+      index
     } = this.props;
     const clickableBodyAttributes = {
       withRipple: true,
       href: `/articles/read/${id}`
     };
     return (
-      <CLListItem>
+      <CLListItem twoLine={true}>
         <CLClickableBody {...clickableBodyAttributes}>
           {id}
         </CLClickableBody>

@@ -3,7 +3,14 @@ import {CLButton} from './../../../comp-lib';
 import random from 'random-js';
 // import {handleAuthError} from './../libs';
 
-export const composeArticleBannerStackGrid = ({context, actions, snackbar, id}, onData) => {
+export const composeArticleBannerStackGrid = ({
+  context,
+  actions,
+  snackbar,
+  id,
+  addClasses,
+  itemColor
+}, onData) => {
   const {article} = actions();
   const {getArticle} = article;
   const rm = random();
@@ -25,10 +32,10 @@ export const composeArticleBannerStackGrid = ({context, actions, snackbar, id}, 
         textpos: 'left',
         backgroundGradient: `linear-gradient(${color}, ${color}), `,
         backgroundImage,
-        color: 'white',
+        color: itemColor,
         minHeight: 0.8,
         contentWidth: 'full',
-        addClasses: 'nice-stack-grid',
+        addClasses,
         children: [
           React.createElement(CLButton, {
             label: 'Read more',

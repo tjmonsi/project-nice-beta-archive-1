@@ -5,99 +5,244 @@ import {classList, prefix} from './../../libs';
 
 /**
  * Adds a CLNavLink component to CLNav.
- * @param {string} [addClasses] Adds optional classes.
+ * @param {string}  [addClasses] Adds optional classes.
  * @param {Boolean} [hideOnLargeScreen=false]
  * @param {Boolean} [hideOnSmallScreen=false]
- * @param {string} [id]
- * @param {Object} [link] An object containint the link's URL, name, actionHandler, or another group of links for a dropdown.
- * @param {string} navpos Specifies where the link/s will be placed. May only be "header" or "drawer".
+ * @param {string}  [id]
+ * @param {Object}  [link] An object containint the link's URL, name, actionHandler, or another group of links for a dropdown.
+ * @param {string}  [navpos] Specifies where the link/s will be placed. May only be "header" or "drawer".
  *
  */
 
 export class CLNavLink extends React.Component {
+  constructor() {
+    super();
+    this.openDrawer = this.openDrawer.bind(this);
+  }
+  componentDidMount() {
+    this.componentUpgrade();
+  }
+  componentDidUpdate() {
+    this.componentUpgrade();
+  }
+  componentUpgrade() {
+    if (this.drawerContent) {
+      // console.log(this.drawerContent.clientHeight)
+      this.drawerContent.style.display = 'none';
+    }
+  }
+  openDrawer() {
+    if (this.accordion) {
+      if (this.drawerContent.style.display === 'none') {
+        this.drawerContent.style.display = 'block';
+      } else {
+        this.drawerContent.style.display = 'none';
+      }
+    }
+  }
   render() {
+    const r = random();
+
+    // Params
+
     const {
-      navpos,
-      link,
-      id,
+
+      // general params
+
+      id = `nav-link-${r.string(10)}`,
+      generalClassName,
+      specificClassName,
+      style,
+      headerSubStyle,
+      drawerSubStyle,
+      linkStyle,
+      itemStyle,
       hideOnLargeScreen,
       hideOnSmallScreen,
-      classes,
-      addClasses
+
+      // other params
+
+      link = {},
+      navpos = 'header',
     } = this.props;
+
+    // Other imports and initialization
+
     const {
-      url,
-      name,
-      actionHandler,
+      url = '#',
+      name = 'Link',
+      actionHandler = () => {},
       links
     } = link;
-    const r = random();
-    const idFor = `nav-link-${id ? id : ''}-${r.string(5)}`;
+
+    // ID manipulation
+
+    const idFor = `${id}-${r.string(5)}`;
+
+    // Default Class
+
     const defaultClass = `${prefix}-nav-link`;
-    const className = classNames(
+
+    // Children manipulation and checking
+
+    // Classnames
+
+    const className = navpos === 'header' ? classNames(
+      {
+        'mdl-layout--small-screen-only': hideOnLargeScreen,
+        'mdl-layout--large-screen-only': hideOnSmallScreen
+      },
       defaultClass,
-      classList(classes, defaultClass),
-      classList(addClasses, defaultClass)
+      classList(generalClassName, 'nav-link'),
+      specificClassName
+    ) : classNames(
+      'beta-mdl-accordion',
+      {
+        'mdl-layout--small-screen-only': hideOnLargeScreen,
+        'mdl-layout--large-screen-only': hideOnSmallScreen
+      },
+      defaultClass,
+      classList(generalClassName, 'nav-link'),
+      specificClassName
     );
-    const classNameGroupHeader = classNames(
+
+    const headerClassName = classNames(
       'mdl-menu mdl-js-menu mdl-js-ripple-effect',
-      `${defaultClass}-group-header`,
-      classList(classes, `${defaultClass}-group-header`)
+      `${defaultClass}-header`,
+      classList(generalClassName, 'nav-link-header'),
+      classList(specificClassName, 'nav-link-header')
     );
-    const classNameGroupDrawer = classNames(
-      'mdl-menu mdl-js-menu mdl-js-ripple-effect',
-      `${defaultClass}-group-drawer`,
-      classList(classes, `${defaultClass}-group-drawer`)
+
+    const drawerClassName = classNames(
+      'beta-mdl-accordion__content mdl-animation--default',
+      `${defaultClass}-drawer`,
+      classList(generalClassName, 'nav-link-drawer'),
+      classList(specificClassName, 'nav-link-drawer')
     );
-    const attributes = {
+
+    // Styles
+
+    // Refs
+
+    const drawerContentRef = (c) => {
+      this.drawerContent = c;
+    };
+
+    const ref = (c) => {
+      this.accordion = c;
+    };
+
+    // Attributes
+
+    const attributes = navpos === 'header' ? {
       href: '#',
       className: `mdl-navigation__link ${className}`,
-      id: idFor
+      id: idFor,
+      style
+    } : {
+      className,
+      style,
+      ref
     };
+
     const listHeaderAttributes = {
-      className: classNameGroupHeader,
-      htmlFor: idFor
+      className: headerClassName,
+      htmlFor: idFor,
+      style: headerSubStyle,
+      tabIndex: 0
     };
 
     const listDrawerAttributes = {
-      className: classNameGroupDrawer,
-      htmlFor: idFor
+      className: drawerClassName,
+      style: drawerSubStyle,
+      ref: drawerContentRef
     };
 
-    const renderLink = (
-      subName = 'Link',
-      subUrl = '#',
-      subActionHandler = () => {},
-      subClasses,
-      isSubMenu
-    ) => {
-      const linkAttributes = {
-        href: subUrl,
-        onClick: () => {
-          subActionHandler();
-          if (navpos === 'drawer') {
-            const d = document.querySelector('.mdl-layout');
-            d.MaterialLayout.toggleDrawer();
-          }
+    const drawerButtonAttributes = {
+      className: 'mdl-navigation__link beta-mdl-accordion__button',
+      onClick: this.openDrawer,
+      tabIndex: 0,
+      // onKeyUp: () => {
+      //   console.log(name)
+      // },
+      // onBlur: () => {
+      //   console.log('blur', name)
+      // }
+    };
+
+    // Functions
+
+    const renderLink = (item, key, isSubMenu) => {
+      const {
+        name: subName = 'Link',
+        url: subUrl = '#',
+        actionHandler: subActionHandler = () => {},
+      } = item;
+
+      // Classnames
+
+      const linkClassName = classNames(
+        {
+          'mdl-navigation__link': !isSubMenu || navpos === 'drawer',
+          'mdl-layout--small-screen-only': hideOnLargeScreen,
+          'mdl-layout--large-screen-only': hideOnSmallScreen
         },
-        className: classNames(
-          {
-            'mdl-navigation__link': !isSubMenu,
-            'mdl-layout--small-screen-only': hideOnLargeScreen,
-            'mdl-layout--large-screen-only': hideOnSmallScreen
-          },
-          subClasses,
-          isSubMenu ? `${prefix}-nav-sub-link` : null,
-          navpos === 'header' && isSubMenu ? `${prefix}-nav-sub-link-header` : null
-        )
+        `${defaultClass}-tag`,
+        classList(generalClassName, 'nav-link-tag'),
+        classList(specificClassName, 'nav-link-tag'),
+        isSubMenu ? `${prefix}-nav-sub-link` : null,
+        isSubMenu && navpos === 'drawer' ? `${prefix}-nav-sub-link-drawer`: null,
+        navpos === 'header' && isSubMenu ? `${prefix}-nav-sub-link-header` : null
+      );
+
+      const itemClassName = classNames(
+        {
+          'mdl-menu__item': navpos === 'header'
+        },
+        `${defaultClass}-tag-item`,
+        classList(generalClassName, 'nav-link-tag-item'),
+        classList(specificClassName, 'nav-link-tag-item')
+      );
+
+      // Special Functions
+
+      const onClick = () => {
+        subActionHandler();
+        if (navpos === 'drawer') {
+          const d = document.querySelector('.mdl-layout');
+          d.MaterialLayout.toggleDrawer();
+        }
       };
 
-      return (
+      // Attributes
+
+      const linkAttributes = {
+        href: subUrl,
+        onClick,
+        className: linkClassName,
+        style: linkStyle,
+        key
+      };
+
+      const itemAttributes = {
+        className: itemClassName,
+        style: itemStyle
+      };
+
+      return navpos === 'header' ? (
+        <a {...linkAttributes} >
+          <li {...itemAttributes} >
+            {subName}
+          </li>
+        </a>
+      ) : (
         <a {...linkAttributes} >
           {subName}
         </a>
       );
     };
+
+     // Render return
 
     if (navpos === 'header') {
       return links ? (
@@ -107,64 +252,32 @@ export class CLNavLink extends React.Component {
           </a>
           <ul {...listHeaderAttributes} >
             {
-              links ? links.map((item, key) => {
-                const {
-                  url: subUrl,
-                  name: subName,
-                  actionHandler: subActionHandler
-                } = item;
-
-                const itemAttributes = {
-                  className: classNames(
-                    'mdl-menu__item',
-                    `${prefix}-nav-sub-link-item`,
-                    className
-                  ),
-                  key
-                };
-                return (
-                  <li {...itemAttributes} >
-                    {renderLink(subName, subUrl, subActionHandler, className, true)}
-                  </li>
-                );
-              }) : null
+              links ? links.map((item, key) => (renderLink(item, key, true))) : null
             }
           </ul>
         </span>
-      ) : renderLink(name, url, actionHandler, className);
+      ) : renderLink({name, url, actionHandler});
 
     } else if (navpos === 'drawer') {
       return links ? (
-        <span>
-          <a {...attributes} >
+        <div {...attributes} >
+          <a {...drawerButtonAttributes} >
             {name}
+            <span className="mdl-layout-spacer" />
+            <i className="material-icons beta-mdl-accordion__icon mdl-animation--default">
+              expand_more
+            </i>
           </a>
-          <ul {...listDrawerAttributes} >
-            {
-              links ? links.map((item, key) => {
-                const {
-                  url: subUrl,
-                  name: subName,
-                  actionHandler: subActionHandler
-                } = item;
-                const itemAttributes = {
-                  className: classNames(
-                    'mdl-menu__item',
-                    `${prefix}-nav-sub-link-item`,
-                    className
-                  ),
-                  key
-                };
-                return (
-                  <li {...itemAttributes} >
-                    {renderLink(subName, subUrl, subActionHandler, className, true)}
-                  </li>
-                );
-              }) : null
-            }
-          </ul>
-        </span>
-      ) : renderLink(name, url, actionHandler, className);
+          <div className="beta-mdl-accordion__content-wrapper">
+            <div {...listDrawerAttributes} >
+
+              {
+                links ? links.map((item, key) => (renderLink(item, key, true))) : null
+              }
+            </div>
+          </div>
+        </div>
+      ) : renderLink({name, url, actionHandler});
     }
     return (
       <span></span>

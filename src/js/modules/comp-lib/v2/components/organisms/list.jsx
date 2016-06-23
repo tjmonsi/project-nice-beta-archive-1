@@ -19,6 +19,7 @@ export class CLList extends React.Component {
       twoLine = false,
       threeLine = false,
       width = 300,
+      style,
       classes,
       addClasses,
       id,
@@ -36,13 +37,14 @@ export class CLList extends React.Component {
       classList(classes, defaultClass),
       classList(addClasses, defaultClass)
     );
-    const style = {
-      width
+    const additionalStyles = {
+      width,
+      ...style
     };
     const attributes = {
       className,
       id,
-      style
+      style: additionalStyles
     };
     return div ? (
       <div {...attributes} >
