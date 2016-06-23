@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import {CLButton, CLSpacer} from './../atoms';
 import {debounce} from 'underscore';
+import random from 'random-js';
 import {classList, prefix} from './../../libs';
 
 /**
@@ -32,50 +33,57 @@ export class CLForm extends React.Component {
   onActionHandler(actionHandler = () => {}, data) {
     actionHandler(data);
   }
-  renderButtons() {
-    const {
-      classes,
-      addClasses,
-      data,
-      actionHandlers,
-      snackbar
-    } = this.props;
-    return actionHandlers ? actionHandlers.map((actionHandlerObject, key) => {
-      const {
-        spacer,
-        actionHandler
-      } = actionHandlerObject;
-      const attributes = {
-        classes,
-        addClasses,
-        key,
-        snackbar
-      };
-      const actionAttribute = {
-        actionHandler: () => {
-          this.onActionHandler(actionHandler, data);
-        }
-      };
-      return spacer ? (
-        <CLSpacer {...Object.assign({}, attributes, actionHandlerObject)} />
-      ) :
-      (
-        <CLButton {...Object.assign({}, attributes, actionHandlerObject, actionAttribute)} />
-      );
+  renderSections() {
+    const {data = {}, sections, classes} = this.props;
+    return sections ? sections.map((sectionObj, key) => {
+      const {section, name} = sectionObj;
+      if (name) {
+        const value = data[name];
+        const ref = (c) => {
+          this.sections[name] = c;
+        };
+        return section && typeof section === 'function' ?
+          section(classes, name, value, this.onChangeHandler, ref) : null;
+      }
+      return section && typeof section === 'function' ? section(classes) : null;
     }) : null;
   }
   render() {
+    const r = random();
+
+    // Params
+
     const {
-      classes,
-      addClasses,
-      shadow,
-      id,
+
+      // general params
+
+      id = `form-${r.string(10)}`,
+      generalClassName,
+      specificClassName,
+      style,
+      snackbar,
       children,
-      onChangeDispatch = () => {},
+
+      // other params
+
+      actionHandlers,
       data = {},
-      snackbar
+      onChangeDispatch = () => {},
+      shadow
     } = this.props;
+
+    // Other imports and initialization
+
+    // ID manipulation
+
+    // Default Class
+
     const defaultClass = `${prefix}-form`;
+
+    // Children manipulation and checking
+
+    // Classnames
+
     const className = classNames(
       shadow && !isNaN(shadow) && (
         parseInt(shadow, 10) === 2 ||
@@ -85,28 +93,75 @@ export class CLForm extends React.Component {
         parseInt(shadow, 10) === 16
       ) ? `mdl-shadow--${shadow}dp` : null,
       defaultClass,
-      classList(classes, defaultClass),
-      classList(addClasses, defaultClass)
+      classList(generalClassName, 'form'),
+      specificClassName
     );
-    const attribtues = {
-      className,
-      id
-    };
+
     const actionListClassname = classNames(
       `${defaultClass}-action`,
-      classList(classes, `${defaultClass}-action`),
-      classList(addClasses, `${defaultClass}-action`)
+      classList(generalClassName, 'form-action'),
+      classList(specificClassName, 'action')
     );
+
+    // Styles
+
+    // Refs
+
+    // Attributes
+
+    const attributes = {
+      id,
+      className,
+      style
+    };
+
     const actionListAttributes = {
       className: actionListClassname
     };
+    // Functions
+
+    const renderButtons = () => {
+      return actionHandlers ? actionHandlers.map((actionHandlerObject, key) => {
+        const {
+          spacer,
+          actionHandler
+        } = actionHandlerObject;
+        const buttonAttributes = {
+          generalClassName,
+          specificClassName,
+          key,
+          snackbar
+        };
+        const actionAttribute = {
+          actionHandler: () => {
+            this.onActionHandler(actionHandler, data);
+          }
+        };
+        return spacer ? (
+          <CLSpacer {...Object.assign({}, buttonAttributes, actionHandlerObject)} />
+        ) :
+        (
+          <CLButton
+            {...Object.assign({},
+              buttonAttributes,
+              actionHandlerObject,
+              actionAttribute)
+            }
+          />
+        );
+      }) : null;
+    };
+
     this.onChangeDispatch = debounce(onChangeDispatch, 500);
+
+    // Render return
+
     return (
-      <div {...attribtues} >
+      <div {...attributes} >
         {
           React.Children.map(children, child => (typeof child === 'string' ? child :
             React.cloneElement(child, {
-              classes,
+              generalClassName,
               inputRef: this.inputRef,
               onChangeHandler: this.onChangeHandler,
               data,
@@ -115,7 +170,7 @@ export class CLForm extends React.Component {
           ))
         }
         <div {...actionListAttributes} >
-          {this.renderButtons()}
+          {renderButtons()}
         </div>
       </div>
     );
