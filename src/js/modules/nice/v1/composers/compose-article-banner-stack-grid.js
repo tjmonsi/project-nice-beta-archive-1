@@ -8,7 +8,7 @@ export const composeArticleBannerStackGrid = ({
   actions,
   snackbar,
   id,
-  addClasses,
+  specificClassName,
   itemColor
 }, onData) => {
   const {article} = actions();
@@ -23,19 +23,18 @@ export const composeArticleBannerStackGrid = ({
     if (err) {
       snackbar.showNotification(err.message);
     } else {
-      const {title, excerpt: subtitle, image_url} = articleObject;
-      const backgroundImage = `url('${image_url}')`;
+      const {title, excerpt: subTitle, image_url} = articleObject;
       onData(null, {
         id,
         title,
-        subtitle,
+        subTitle,
         textpos: 'left',
-        backgroundGradient: `linear-gradient(${color}, ${color}), `,
-        backgroundImage,
+        background: `linear-gradient(${color}, ${color}), url('${image_url}')
+          center center/cover no-repeat`,
         color: itemColor,
         minHeight: 0.8,
         contentWidth: 'full',
-        addClasses,
+        specificClassName,
         children: [
           React.createElement(CLButton, {
             label: 'Read more',

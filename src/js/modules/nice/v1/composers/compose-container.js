@@ -9,7 +9,7 @@ export const composePublish = ({
   container,
   start,
   itemColor,
-  itemAddClasses
+  itemSpecificClassName
 }, onData) => {
   const {article} = actions();
   const {getPublished} = article;
@@ -26,7 +26,7 @@ export const composePublish = ({
               id: articles[i],
               key: i,
               index: i,
-              addClasses: itemAddClasses,
+              specificClassName: itemSpecificClassName,
               itemColor
             }));
           }

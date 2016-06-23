@@ -19,12 +19,12 @@ export default (PageCtx, {mount, page}, {Components, Nav}) => {
     const bannerAttributes = {
       container: StackGridBanner,
       stackHeight: 550,
-      buttonColor: 'white',
       limit: 7,
-      addClasses: 'nice',
-      itemAddClasses: 'nice-stack-grid',
+      specificClassName: 'nice',
+      itemSpecificClassName: 'nice-stack-grid',
       itemColor: 'white'
     };
+
 
     const cardListAttributes = {
       container: CardSummary,

@@ -42,30 +42,6 @@ export class CLBanner extends React.Component {
     // Params
 
     const {
-<<<<<<< HEAD
-      id,
-      addClasses,
-      classes,
-      noSpacing,
-      contentMarginBottom,
-      contentMarginTop,
-      contentMarginLeft,
-      contentMarginRight,
-      contentPaddingTop,
-      contentPaddingBottom,
-      contentPaddingLeft,
-      contentPaddingRight,
-      backgroundGradient = '',
-      backgroundColor = '',
-      backgroundImage = '',
-      backgroundPosition = 'center',
-      backgroundSize = 'cover',
-      backgroundRepeat = 'no-repeat',
-      backgroundAttachment = '',
-      background = `${backgroundGradient} ${backgroundImage}
-        ${backgroundPosition}/${backgroundSize} ${backgroundRepeat}
-        ${backgroundAttachment} ${backgroundColor}`.replace('\n',''),
-=======
       // general params
 
       id = `blank-div-${r.string(10)}`,
@@ -84,7 +60,6 @@ export class CLBanner extends React.Component {
 
       background,
       noSpacing = false,
->>>>>>> upstream/develop
       contentWidth = 'half',
       textpos = 'center',
       headlineText,
