@@ -106,7 +106,6 @@ export class CLSpinnerDiv extends React.Component {
 
     const attributes = {
       id,
-      className,
       style: styleSpinner,
       ref
     };
@@ -124,8 +123,8 @@ export class CLSpinnerDiv extends React.Component {
             mdl-cell--2-offset-phone mdl-cell--middle"
           >
             <div style={{marginLeft: -30}}>
-            <div className = {className} style={{width: 100, height: 100}} ref = {ref2}>
-            </div>
+              <div className = {className} style={{width: 100, height: 100}} ref = {ref2}>
+              </div>
             </div>
           </div>
         </div>
