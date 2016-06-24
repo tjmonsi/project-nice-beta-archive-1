@@ -42,24 +42,20 @@ export class Layout extends React.Component {
     };
 
     return (
-      <CLLayout fixedHeader={true}>
+      <CLLayout fixedHeader={true} snackbar = {snackbar}>
         <CLHeader>
           <CLHeaderRow>
             {Logo}
             <CLSpacer />
-            <Nav snackbar = {snackbar} />
+            <Nav />
           </CLHeaderRow>
         </CLHeader>
         <CLDrawer>
           <CLLogo {...logoAttributes} label="N.I.C.E" />
-          <Nav snackbar = {snackbar} />
+          <Nav />
         </CLDrawer>
         <CLBody>
-          {React.Children.map(children, child => (typeof child !== 'string' ?
-            React.cloneElement(child, {
-              snackbar
-            }) : child
-          ))}
+          {React.Children.map(children, child => (child))}
         </CLBody>
         <CLSnackbar ref={snackbarRef}/>
       </CLLayout>

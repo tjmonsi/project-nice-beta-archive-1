@@ -9,7 +9,9 @@ export const composePublish = ({
   container,
   start,
   itemColor,
-  itemSpecificClassName
+  itemSpecificClassName,
+  insertAdditionalContainerPos,
+  additionalContainer
 }, onData) => {
   const {article} = actions();
   const {getPublished} = article;
@@ -22,6 +24,12 @@ export const composePublish = ({
       if (container) {
         for (let i in articles) {
           if (articles[i]) {
+            // check weather underground and position
+
+            if (additionalContainer && children.length === insertAdditionalContainerPos) {
+
+            }
+
             children.push(React.createElement(container, {
               id: articles[i],
               key: i,
@@ -38,6 +46,8 @@ export const composePublish = ({
           }
         }
       }
+
+      console.log(container);
       onData(null, {children});
     }
   };

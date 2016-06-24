@@ -3,13 +3,14 @@ import {CLButton} from './../../../comp-lib';
 import random from 'random-js';
 // import {handleAuthError} from './../libs';
 
-export const composeArticleBannerStackGrid = ({
+export const composeArticleBanner = ({
   context,
   actions,
   snackbar,
   id,
   specificClassName,
-  itemColor
+  itemColor,
+  callToAction = true
 }, onData) => {
   const {article} = actions();
   const {getArticle} = article;
@@ -35,14 +36,14 @@ export const composeArticleBannerStackGrid = ({
         minHeight: 0.8,
         contentWidth: 'full',
         specificClassName,
-        children: [
+        children: callToAction ? [
           React.createElement(CLButton, {
             label: 'Read more',
             href: `/articles/read/${id}`,
             colored: 'primary',
             isRaised: true
           })
-        ]
+        ] : null
       });
     }
   };

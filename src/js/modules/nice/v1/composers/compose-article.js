@@ -1,14 +1,13 @@
-import React from 'react';
-import {CLButton} from './../../../comp-lib';
 // import {handleAuthError} from './../libs';
 
-export const composeArticleListItem = ({
+export const composeArticle = ({
   context,
   actions,
   snackbar,
   id,
-  addClasses,
-  itemColor
+  specificClassName,
+  color,
+  style
 }, onData) => {
   const {article} = actions();
   const {getArticle} = article;
@@ -17,7 +16,8 @@ export const composeArticleListItem = ({
     if (err) {
       snackbar.showNotification(err.message);
     } else {
-      const {title: label, author, date_updated, image_url} = articleObject;
+      const {title, author, date_updated, image_url} = articleObject;
+
       const options = {
         weekday: 'long',
         year: 'numeric',
@@ -32,9 +32,13 @@ export const composeArticleListItem = ({
 
       onData(null, {
         id,
-        label,
+        label: title,
+        title,
         subTitle,
-        addClasses
+        image_url,
+        specificClassName,
+        color,
+        style
       });
     }
   };

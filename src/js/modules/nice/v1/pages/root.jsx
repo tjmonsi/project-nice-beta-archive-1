@@ -2,7 +2,7 @@ import React from 'react';
 import {Layout} from './../components/layout.jsx';
 import {CardSummary} from './../components/card-summary.jsx';
 import {ClickableListItem} from './../components/clickable-list-item.jsx';
-import {RootBanner, RootCards, RootList, StackGridBanner} from './../containers';
+import {RootBanner, RootCard, RootCards, RootList, StackGridBanner} from './../containers';
 
 export default (PageCtx, {mount, page}, {Components, Nav}) => {
   page('/', () => {
@@ -27,9 +27,10 @@ export default (PageCtx, {mount, page}, {Components, Nav}) => {
 
 
     const cardListAttributes = {
-      container: CardSummary,
+      container: RootCard,
       limit: 4,
-      columns: 2
+      columns: 2,
+      forceSingleColumnPhone: true
     };
 
     const listAttributes = {
